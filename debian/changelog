@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo1) unstable; urgency=low
+
+  * Uploaded to Maemo.  See changelog.Maemo for Maemo specific changes.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Fri, 11 Sep 2009 16:28:29 +0300
+
 exempi (2.1.1-1) unstable; urgency=low
 
   * New upstream release.
