@@ -1,0 +1,33 @@
+#! /bin/sh
+
+# XXX - this needs to run under fakeroot...
+
+if [ -e debian/fixup-scratchbox.stamp ]; then
+  exit 0;
+fi
+
+export SBOX_REDIRECT_TO_DIRS=
+export PATH=/scratchbox/compilers/bin:/bin:/usr/bin::/sbin:/usr/sbin:/scratchbox/tools/bin
+
+pfx="dpkg-checkbuilddeps: Unmet build dependencies:"
+deps=`dpkg-checkbuilddeps 2>&1 | grep "^$pfx" | \
+      sed -e "s/$pfx//" -e s'/([^)]*)//g'`
+if [ -n "$deps" ]; then
+  echo apt-get "$@" install $deps
+  apt-get --force-yes --yes install $deps
+fi
+apt-get --force-yes --yes install fakeroot
+apt-get --force-yes --yes upgrade
+
+# How low can you go?
+
+if [ $(sb-conf show -t) != "none" -a ! -f /usr/bin/man.qemu ]; then
+  mv /usr/bin/man /usr/bin/man.qemu
+  cat >/usr/bin/man <<EOF
+#! /bin/sh
+exec /scratchbox/devkits/cputransp/bin/qemu-arm-cvs-m /usr/bin/man.qemu "\$@"
+EOF
+  chmod a+x /usr/bin/man
+fi
+
+touch debian/fixup-scratchbox.stamp
