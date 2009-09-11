@@ -414,6 +414,21 @@ ImportSingleTIFF_Long ( const TIFF_Manager::TagInfo & tagInfo, const bool native
 // ImportSingleTIFF_Rational
 // =========================
 
+#ifdef __GNUC__
+
+static inline uint32_t
+unaligned32 (const void *p)
+{
+    struct dummy
+    {
+	uint32_t data;
+    } __attribute__((packed));
+
+    return ((const struct dummy *) p)->data;
+}
+
+#endif
+
 static void
 ImportSingleTIFF_Rational ( const TIFF_Manager::TagInfo & tagInfo, const bool nativeEndian,
 							SXMPMeta * xmp, const char * xmpNS, const char * xmpProp )
@@ -421,8 +436,8 @@ ImportSingleTIFF_Rational ( const TIFF_Manager::TagInfo & tagInfo, const bool na
 	try {	// Don't let errors with one stop the others.
 
 		XMP_Uns32 * binPtr = (XMP_Uns32*)tagInfo.dataPtr;
-		XMP_Uns32 binNum   = binPtr[0];
-		XMP_Uns32 binDenom = binPtr[1];
+		XMP_Uns32 binNum   = unaligned32 (binPtr);
+		XMP_Uns32 binDenom = unaligned32 (binPtr + 1);
 		if ( ! nativeEndian ) {
 			binNum = Flip4 ( binNum );
 			binDenom = Flip4 ( binDenom );
@@ -451,8 +466,8 @@ ImportSingleTIFF_SRational ( const TIFF_Manager::TagInfo & tagInfo, const bool n
 	try {	// Don't let errors with one stop the others.
 
 		XMP_Int32 * binPtr = (XMP_Int32*)tagInfo.dataPtr;
-		XMP_Int32 binNum   = binPtr[0];
-		XMP_Int32 binDenom = binPtr[1];
+		XMP_Uns32 binNum   = unaligned32 (binPtr);
+		XMP_Uns32 binDenom = unaligned32 (binPtr + 1);
 		if ( ! nativeEndian ) {
 			Flip4 ( &binNum );
 			Flip4 ( &binDenom );
@@ -788,8 +803,8 @@ ImportArrayTIFF_Rational ( const TIFF_Manager::TagInfo & tagInfo, const bool nat
 	
 		for ( size_t i = 0; i < tagInfo.count; ++i, binPtr += 2 ) {
 	
-			XMP_Uns32 binNum   = binPtr[0];
-			XMP_Uns32 binDenom = binPtr[1];
+			XMP_Uns32 binNum   = unaligned32 (binPtr);
+			XMP_Uns32 binDenom = unaligned32 (binPtr + 1);
 			if ( ! nativeEndian ) {
 				binNum = Flip4 ( binNum );
 				binDenom = Flip4 ( binDenom );
@@ -823,8 +838,8 @@ ImportArrayTIFF_SRational ( const TIFF_Manager::TagInfo & tagInfo, const bool na
 	
 		for ( size_t i = 0; i < tagInfo.count; ++i, binPtr += 2 ) {
 	
-			XMP_Int32 binNum   = binPtr[0];
-			XMP_Int32 binDenom = binPtr[1];
+			XMP_Int32 binNum   = unaligned32 (binPtr);
+			XMP_Int32 binDenom = unaligned32 (binPtr + 1);
 			if ( ! nativeEndian ) {
 				Flip4 ( &binNum );
 				Flip4 ( &binDenom );
@@ -1460,8 +1475,8 @@ ImportTIFF_OECFTable ( const TIFF_Manager::TagInfo & tagInfo, bool nativeEndian,
 		XMP_Int32 * binPtr = (XMP_Int32*)bytePtr;
 		for ( size_t i = (columns * rows); i > 0; --i, binPtr += 2 ) {
 	
-			XMP_Int32 binNum   = binPtr[0];
-			XMP_Int32 binDenom = binPtr[1];
+			XMP_Int32 binNum   = unaligned32 (binPtr);
+			XMP_Int32 binDenom = unaligned32 (binPtr + 1);
 			if ( ! nativeEndian ) {
 				Flip4 ( &binNum );
 				Flip4 ( &binDenom );
@@ -1530,8 +1545,8 @@ ImportTIFF_SFRTable ( const TIFF_Manager::TagInfo & tagInfo, bool nativeEndian,
 		XMP_Uns32 * binPtr = (XMP_Uns32*)bytePtr;
 		for ( size_t i = (columns * rows); i > 0; --i, binPtr += 2 ) {
 	
-			XMP_Uns32 binNum   = binPtr[0];
-			XMP_Uns32 binDenom = binPtr[1];
+			XMP_Uns32 binNum   = unaligned32 (binPtr);
+			XMP_Uns32 binDenom = unaligned32 (binPtr + 1);
 			if ( ! nativeEndian ) {
 				binNum   = Flip4 ( binNum );
 				binDenom = Flip4 ( binDenom );
@@ -1696,12 +1711,12 @@ ImportTIFF_GPSCoordinate ( const TIFF_Manager & tiff, const TIFF_Manager::TagInf
 		char ref = *((char*)refInfo.dataPtr);
 		
 		XMP_Uns32 * binPtr = (XMP_Uns32*)posInfo.dataPtr;
-		XMP_Uns32 degNum   = binPtr[0];
-		XMP_Uns32 degDenom = binPtr[1];
-		XMP_Uns32 minNum   = binPtr[2];
-		XMP_Uns32 minDenom = binPtr[3];
-		XMP_Uns32 secNum   = binPtr[4];
-		XMP_Uns32 secDenom = binPtr[5];
+		XMP_Uns32 degNum   = unaligned32 (binPtr);
+		XMP_Uns32 degDenom = unaligned32 (binPtr + 1);
+		XMP_Uns32 minNum   = unaligned32 (binPtr + 2);
+		XMP_Uns32 minDenom = unaligned32 (binPtr + 3);
+		XMP_Uns32 secNum   = unaligned32 (binPtr + 4);
+		XMP_Uns32 secDenom = unaligned32 (binPtr + 5);
 		if ( ! nativeEndian ) {
 			degNum = Flip4 ( degNum );
 			degDenom = Flip4 ( degDenom );
@@ -1769,12 +1784,12 @@ ImportTIFF_GPSTimeStamp ( const TIFF_Manager & tiff, const TIFF_Manager::TagInfo
 		if ( (dateStr[10] != 0)  && (dateStr[10] != ' ') ) return;
 		
 		XMP_Uns32 * binPtr = (XMP_Uns32*)timeInfo.dataPtr;
-		XMP_Uns32 hourNum   = binPtr[0];
-		XMP_Uns32 hourDenom = binPtr[1];
-		XMP_Uns32 minNum    = binPtr[2];
-		XMP_Uns32 minDenom  = binPtr[3];
-		XMP_Uns32 secNum    = binPtr[4];
-		XMP_Uns32 secDenom  = binPtr[5];
+		XMP_Uns32 hourNum   = unaligned32 (binPtr);
+		XMP_Uns32 hourDenom = unaligned32 (binPtr + 1);
+		XMP_Uns32 minNum    = unaligned32 (binPtr + 2);
+		XMP_Uns32 minDenom  = unaligned32 (binPtr + 3);
+		XMP_Uns32 secNum    = unaligned32 (binPtr + 4);
+		XMP_Uns32 secDenom  = unaligned32 (binPtr + 5);
 		if ( ! nativeEndian ) {
 			hourNum = Flip4 ( hourNum );
 			hourDenom = Flip4 ( hourDenom );
