@@ -1,13 +1,14 @@
 Source: exempi
 Section: libs
 Priority: optional
-Maintainer: Asheesh Laroia <asheesh@asheesh.org>
+Maintainer: Marius Vollmer <marius.vollmer@nokia.com>
+Origin: maemo
 Uploaders: Michael Biebl <biebl@debian.org>
 Build-Depends: debhelper (>= 7), cdbs (>= 0.4.30), libexpat1-dev, quilt, zlib1g-dev
 Standards-Version: 3.8.2
-Vcs-Git: git://git.debian.org/collab-maint/exempi.git
-Vcs-Browser: http://git.debian.org/?p=collab-maint/exempi.git;a=summary
 Homepage: http://libopenraw.freedesktop.org/wiki/Exempi
+Vcs-Browser: http://gitorious.org/maemo-pkg/exempi
+Vcs-Git: git@gitorious.org:maemo-pkg/exempi.git
 
 Package: libexempi3
 Section: libs
