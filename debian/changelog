@@ -1,3 +1,22 @@
+exempi (2.1.1-1+maemo3) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Mon, 07 Dec 2009 15:17:25 +0200
+
+exempi (2.1.1-1+maemo2) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 20 Oct 2009 17:27:59 +0300
+
+exempi (2.1.1-1+maemo1) unstable; urgency=low
+
+  * Initial import into Maemo.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Fri, 11 Sep 2009 16:09:54 +0300
+
+
 exempi (2.1.1-1) unstable; urgency=low
 
   * New upstream release.
