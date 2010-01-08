@@ -1,0 +1,43 @@
+#! /bin/sh
+
+# XXX - this needs to run under fakeroot...
+
+# The stamp file can not be in the source tree because then it would
+# end up in the source package, which is not what we want.
+
+STAMP=/tmp/$(head debian/changelog | md5sum | cut -d' ' -f1).stamp
+
+if [ -e $STAMP ]; then
+  exit 0;
+fi
+
+# Only do permanent changes if this is BIFH
+
+echo "$USER" | grep -q 'bifh[0-9]' || exit 0;
+
+export SBOX_REDIRECT_TO_DIRS=
+export PATH=/scratchbox/compilers/bin:/bin:/usr/bin::/sbin:/usr/sbin:/scratchbox/tools/bin
+
+# prevent bash from killing the system
+rm -f /var/lib/bash/provide-sh
+
+# give tetex-bin something to remove with update-alternatives.
+# bug in dpkg.
+update-alternatives --install /usr/bin/oxdvi.bin oxdvi.bin /bin/true 0
+
+pfx="dpkg-checkbuilddeps: Unmet build dependencies:"
+deps=`dpkg-checkbuilddeps 2>&1 | grep "^$pfx" | \
+      sed -e "s/$pfx//" -e s'/([^)]*)//g' -e 's/|//'`
+deps="$deps fakeroot build-essential automake autoconf libtool scratchbox-qemu-overlay"
+for d in $deps; do
+  echo apt-get "$@" install $d
+  apt-get -q --force-yes --yes install $d
+done
+apt-get -q --force-yes --yes dist-upgrade
+
+if [ $(sb-conf show -t) != "none" -a -x /usr/bin/qemu-arm-sb ]; then
+  sb-conf setup -f -t /usr/bin/qemu-arm-sb
+  sb-conf show
+fi
+
+touch $STAMP
