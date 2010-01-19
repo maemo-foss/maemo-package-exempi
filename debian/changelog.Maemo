@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo5) unstable; urgency=low
+
+  * Bumped version to get rid of the '+(%rid)s' revision template.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 19 Jan 2010 15:30:30 +0200
+
 exempi (2.1.1-1+maemo4) unstable; urgency=low
 
   * Updated maemoification.
