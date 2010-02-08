@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo7) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Mon, 08 Feb 2010 17:19:29 +0200
+
 exempi (2.1.1-1+maemo6) unstable; urgency=low
 
   * Updated maemoification.
