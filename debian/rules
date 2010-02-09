@@ -1,5 +1,19 @@
 #!/usr/bin/make -f
 
+# Sanitize build environment when running inside Scratchbox 1
+ifneq (,$(wildcard /targets))
+   ifeq (,$(SBOX_DONT_SANITIZE))
+     export PATH:=/bin:/usr/bin
+     export MAKE:=/usr/bin/make
+     ifeq (,$(FAKEROOTKEY))
+       export SBOX_REDIRECT_TO_DIRS:=/scratchbox/compilers/bin
+     else
+       export SBOX_REDIRECT_TO_DIRS:=
+     endif
+     rc:=$(shell debian/fixup-scratchbox >&2)
+  endif
+endif
+
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
 include /usr/share/cdbs/1/rules/patchsys-quilt.mk
