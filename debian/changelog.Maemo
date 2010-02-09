@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo8) unstable; urgency=low
+
+  * Retagged for saner sanitization
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 09 Feb 2010 17:36:11 +0200
+
 exempi (2.1.1-1+maemo7) unstable; urgency=low
 
   * Updated maemoification.
