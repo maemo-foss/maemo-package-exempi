@@ -1,0 +1,60 @@
+#! /bin/sh
+
+# XXX - this needs to run under fakeroot...
+
+# The stamp file can not be in the source tree because then it would
+# end up in the source package, which is not what we want.
+
+STAMP=/tmp/$(head debian/changelog | md5sum | cut -d' ' -f1).stamp
+
+if [ -e $STAMP ]; then
+  exit 0;
+fi
+
+# Only do permanent changes if this is BIFH
+
+echo "$USER" | grep -q 'bifh[0-9]' || exit 0;
+
+export SBOX_REDIRECT_TO_DIRS=
+export PATH=/scratchbox/compilers/bin:/bin:/usr/bin::/sbin:/usr/sbin:/scratchbox/tools/bin
+
+# prevent bash from killing the system
+rm -f /var/lib/bash/provide-sh
+
+# give tetex-bin something to remove with update-alternatives.
+# bug in dpkg.
+update-alternatives --install /usr/bin/oxdvi.bin oxdvi.bin /bin/true 0
+
+pfx="dpkg-checkbuilddeps: Unmet build dependencies:"
+deps=`dpkg-checkbuilddeps 2>&1 | grep "^$pfx" | \
+      sed -e "s/$pfx//" -e s'/([^)]*)//g' -e 's/|//'`
+deps="$deps build-essential automake autoconf libtool ed gawk diff scratchbox-qemu-overlay"
+for d in $deps; do
+  echo apt-get "$@" install $d
+  apt-get -q --force-yes --yes install $d
+done
+apt-get -q --force-yes --yes dist-upgrade
+
+if [ "$(sb-conf show -t)" != "none" -a -x /usr/bin/qemu-arm-sb ]; then
+  sb-conf setup -f -t /usr/bin/qemu-arm-sb
+  sb-conf show
+fi
+
+# Make sure we get a fresh fakeroot installation
+#
+# We can't seem to control the value of LD_PRELOAD well enough, so we
+# just copy the good version of libfakeroot over the bad one that
+# Scratchbox uses.  This will result in a god version of libfakeroot
+# talking to a bad version of faked, but that seems to work well
+# enough.  The protocol between the two is really simple and unlikely
+# to change even when new syscalls are wrapped.  And this is a
+# desperate hack anyway, so it's OK if there is blood all over the
+# floor from time to time.
+#
+# We use "cp -l" here to avoid overwriting a library that is in use.
+#
+apt-get -q --force-yes --yes --reinstall install fakeroot
+cp -fl /usr/lib/libfakeroot/libfakeroot-sysv.so /usr/lib/libfakeroot-sysv/libfakeroot.so.0
+cp -fl /usr/lib/libfakeroot/libfakeroot-tcp.so /usr/lib/libfakeroot-tcp/libfakeroot.so.0
+
+touch $STAMP

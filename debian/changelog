@@ -1,3 +1,58 @@
+exempi (2.1.1-1+maemo9) unstable; urgency=low
+
+  * Retagged for even saner sanitization
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 09 Feb 2010 18:32:51 +0200
+
+exempi (2.1.1-1+maemo8) unstable; urgency=low
+
+  * Retagged for saner sanitization
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 09 Feb 2010 17:36:11 +0200
+
+exempi (2.1.1-1+maemo7) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Mon, 08 Feb 2010 17:19:29 +0200
+
+exempi (2.1.1-1+maemo6) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Fri, 05 Feb 2010 18:38:03 +0200
+
+exempi (2.1.1-1+maemo5) unstable; urgency=low
+
+  * Bumped version to get rid of the '+(%rid)s' revision template.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 19 Jan 2010 15:30:30 +0200
+
+exempi (2.1.1-1+maemo4) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Fri, 08 Jan 2010 10:46:31 +0200
+
+exempi (2.1.1-1+maemo3) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Mon, 07 Dec 2009 15:17:25 +0200
+
+exempi (2.1.1-1+maemo2) unstable; urgency=low
+
+  * Updated maemoification.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Tue, 20 Oct 2009 17:27:59 +0300
+
+exempi (2.1.1-1+maemo1) unstable; urgency=low
+
+  * Initial import into Maemo.
+
+ -- Marius Vollmer <marius.vollmer@nokia.com>  Fri, 11 Sep 2009 16:09:54 +0300
+
+
 exempi (2.1.1-1) unstable; urgency=low
 
   * New upstream release.
