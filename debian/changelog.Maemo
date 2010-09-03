@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo11) unstable; urgency=low
+
+  * Fixes: NB#188539 Exempi crashes when reading Exif metadata
+
+ -- Jussi Rautio <ext-jussi.2.rautio@nokia.com>  Fri, 03 Sep 2010 16:03:05 +0300
+
 exempi (2.1.1-1+maemo10) unstable; urgency=low
 
   * Removed sanitization \o/
