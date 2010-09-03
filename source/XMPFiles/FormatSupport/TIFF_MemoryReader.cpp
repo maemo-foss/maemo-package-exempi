@@ -80,7 +80,7 @@ void TIFF_MemoryReader::SortIFD ( TweakedIFDInfo* thisIFD )
 			if ( (j >= 0) && (ifdEntries[j].id == thisTag) ) {
 
 				// Out of order duplicate, move it to position j, move the tail of the array up.
-				ifdEntries[j] = ifdEntries[i];
+                                memcpy(&ifdEntries[j], &ifdEntries[i], 12);
 				memcpy ( &ifdEntries[i], &ifdEntries[i+1], 12*(tagCount-(i+1)) );	// AUDIT: Safe, moving tail forward, i >= 1.
 				--tagCount;
 				--i; // ! Don't move forward in the array, we've moved the unseen part up.
@@ -88,10 +88,11 @@ void TIFF_MemoryReader::SortIFD ( TweakedIFDInfo* thisIFD )
 			} else {
 
 				// Move the out of order entry to position j+1, move the middle of the array down.
-				TweakedIFDEntry temp = ifdEntries[i];
+                                TweakedIFDEntry temp;
+                                memcpy(&temp, &ifdEntries[i], 12);
 				++j;	// ! So the insertion index becomes j.
 				memcpy ( &ifdEntries[j+1], &ifdEntries[j], 12*(i-j) );	// AUDIT: Safe, moving less than i entries to a location before i.
-				ifdEntries[j] = temp;
+                                memcpy((char*)&ifdEntries[j], (char*)&temp, 12);
 
 			}
 
