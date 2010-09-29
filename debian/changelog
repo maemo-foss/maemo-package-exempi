@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo14) unstable; urgency=low
+
+  * Fixes: NB#194824 crash in readIFD
+
+ -- Jussi Rautio <ext-jussi.2.rautio@nokia.com>  Wed, 29 Sep 2010 11:30:01 +0300
+
 exempi (2.1.1-1+maemo13) unstable; urgency=low
 
   * Fixes: Exempi crashes when reading Exif metadata
