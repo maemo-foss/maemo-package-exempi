@@ -721,7 +721,7 @@ private:
 		XMP_Uns32 bytes;
 		XMP_Uns32 dataOrPos;
 		TweakedIFDEntry() : id(0), type(0), bytes(0), dataOrPos(0) {};
-	};
+	} __attribute__((packed));
 	
 	struct TweakedIFDInfo {
 		XMP_Uns16 count;

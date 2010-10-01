@@ -1,6 +1,10 @@
-exempi (2.1.1-1+maemo14) unstable; urgency=low
+exempi (2.1.1-1+maemo15) unstable; urgency=low
 
   * Fixes: NB#194824 crash in readIFD
+
+ -- Jussi Rautio <ext-jussi.2.rautio@nokia.com>  Fri, 01 Oct 2010 14:42:02 +0300
+
+exempi (2.1.1-1+maemo14) unstable; urgency=low
 
  -- Jussi Rautio <ext-jussi.2.rautio@nokia.com>  Wed, 29 Sep 2010 11:30:01 +0300
 
