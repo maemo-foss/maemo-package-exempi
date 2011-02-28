@@ -1301,8 +1301,7 @@ ImportTIFF_Date ( const TIFF_Manager & tiff, const TIFF_Manager::TagInfo & dateI
 		binValue.nanoSecond = 0;	// Get the fractional seconds later.
 		binValue.tzSign = binValue.tzHour = binValue.tzMinute = 0;
 		SXMPUtils::SetTimeZone ( &binValue );	// Assume local time.
-                binValue.tzSign = binValue.tzHour = binValue.tzMinute = 0; // Assume UTC time instead!
-
+	
 		TIFF_Manager::TagInfo secInfo;
 		bool found = tiff.GetTag ( kTIFF_ExifIFD, secID, &secInfo );
 	
