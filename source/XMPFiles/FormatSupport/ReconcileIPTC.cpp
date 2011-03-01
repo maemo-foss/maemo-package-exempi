@@ -729,11 +729,11 @@ static void ExportIPTC_DateCreated ( SXMPMeta * xmp, IPTC_Manager * iptc,
 	iptcCount = iptc->GetDataSet ( kIPTC_TimeCreated, 0 );
 	
 	if ( (iptcCount > 0) || xmpHasTime ) {
-	
-		snprintf ( iimValue, sizeof(iimValue), "%.2d%.2d%.2d%c%.2d%.2d",	// AUDIT: Use of sizeof(iimValue) is safe.
-				   xmpValue.hour, xmpValue.minute, xmpValue.second,
-				   ((xmpValue.tzSign == kXMP_TimeWestOfUTC) ? '-' : '+'), xmpValue.tzHour, xmpValue.tzMinute );
-		if ( iimValue[11] != 0 ) return;	// ? Complain? Delete the DataSet?
+
+                snprintf ( iimValue, sizeof(iimValue), "%.2d%.2d%.2d%c%.2d%.2d",	// AUDIT: Use of sizeof(iimValue) is safe.
+                                   xmpValue.hour, xmpValue.minute, xmpValue.second,
+                                   ((xmpValue.tzSign == kXMP_TimeWestOfUTC) ? '-' : '+'), xmpValue.tzHour, xmpValue.tzMinute );
+                if ( iimValue[11] != 0 ) return;	// ? Complain? Delete the DataSet?
 		
 		if ( iptcCount > 1 ) iptc->DeleteDataSet ( kIPTC_TimeCreated );
 	

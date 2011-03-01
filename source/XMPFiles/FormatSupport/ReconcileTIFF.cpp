@@ -1811,7 +1811,7 @@ ImportTIFF_GPSTimeStamp ( const TIFF_Manager & tiff, const TIFF_Manager::TagInfo
 		fSec  =  temp;
 		
 		XMP_DateTime binStamp;
-		binStamp.tzSign = kXMP_TimeIsUTC;
+                binStamp.tzSign = kXMP_TimeNOZONE;
 		binStamp.tzHour = binStamp.tzMinute = 0;
 		binStamp.year   = GatherInt ( dateStr, 4 );
 		binStamp.month  = GatherInt ( dateStr+5, 2 );
