@@ -1299,8 +1299,6 @@ ImportTIFF_Date ( const TIFF_Manager & tiff, const TIFF_Manager::TagInfo & dateI
 		binValue.minute = GatherInt ( &dateStr[14], 2 );
 		binValue.second = GatherInt ( &dateStr[17], 2 );
 		binValue.nanoSecond = 0;	// Get the fractional seconds later.
-		binValue.tzSign = binValue.tzHour = binValue.tzMinute = 0;
-		SXMPUtils::SetTimeZone ( &binValue );	// Assume local time.
                 binValue.tzSign = binValue.tzHour = binValue.tzMinute = 0; // Assume NO TIME ZONE!
 
 		TIFF_Manager::TagInfo secInfo;
