@@ -1062,11 +1062,11 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 		// "time only" values from Photoshop CS.
 		if ( (tempDate.day == 0) && (tempDate.hour == 0) && (tempDate.minute == 0) &&
 			 (tempDate.second == 0) && (tempDate.nanoSecond == 0) &&
-                         (tempDate.tzSign == 0) && (tempDate.tzHour == 0) && (tempDate.tzMinute == 0) ) {
+			 (tempDate.tzSign == 0) && (tempDate.tzHour == 0) && (tempDate.tzMinute == 0) ) {
 			snprintf ( buffer, sizeof(buffer), "%.4d", tempDate.year ); // AUDIT: Using sizeof for snprintf length is safe.
 		} else if ( (tempDate.year == 0) && (tempDate.day == 0) ) {
-                        FormatFullDateTime ( tempDate, buffer, sizeof(buffer) );
-                        addTimeZone = true;
+			FormatFullDateTime ( tempDate, buffer, sizeof(buffer) );
+			addTimeZone = true;
 		} else {
 			XMP_Throw ( "Invalid partial date", kXMPErr_BadParam);
 		}
@@ -1105,15 +1105,14 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 		if ( (tempDate.tzHour < 0) || (tempDate.tzHour > 23) ||
 			 (tempDate.tzMinute < 0 ) || (tempDate.tzMinute > 59) ||
 			 (tempDate.tzSign < -1) || (tempDate.tzSign > +1) ||
-                         //((tempDate.tzSign != 0) && (tempDate.tzHour == 0) && (tempDate.tzMinute == 0)) ||
 			 ((tempDate.tzSign == 0) && ((tempDate.tzHour != 0) || (tempDate.tzMinute != 0))) ) {
 			XMP_Throw ( "Invalid time zone values", kXMPErr_BadParam );
 		}
 
-                if ((tempDate.tzSign != 0) && ((tempDate.tzHour == 0) || (tempDate.tzMinute == 0))) {
+		if ((tempDate.tzSign != 0) && ((tempDate.tzHour == 0) || (tempDate.tzMinute == 0))) {
 			*sConvertedValue += 'Z';
-                } else if (tempDate.tzSign == 0) {
-                        ;
+		} else if (tempDate.tzSign == 0) {
+			; // Keep with zoneless time
 		} else {
 			snprintf ( buffer, sizeof(buffer), "+%02d:%02d", tempDate.tzHour, tempDate.tzMinute );	// AUDIT: Using sizeof for snprintf length is safe.
 			if ( tempDate.tzSign < 0 ) buffer[0] = '-';
@@ -1986,7 +1985,7 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 	if ( diffSecs > 0.0 ) {
 		xmpTime->tzSign = kXMP_TimeEastOfUTC;
 	} else if ( diffSecs == 0.0 ) {
-                xmpTime->tzSign = kXMP_TimeWestOfUTC;
+		xmpTime->tzSign = kXMP_TimeWestOfUTC; // UTC: tzHour=tzMinute=0
 	} else {
 		xmpTime->tzSign = kXMP_TimeWestOfUTC;
 		diffSecs = -diffSecs;
@@ -1998,9 +1997,8 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 	
 	XMP_Assert ( (0 <= xmpTime->tzHour) && (xmpTime->tzHour <= 23) );
 	XMP_Assert ( (0 <= xmpTime->tzMinute) && (xmpTime->tzMinute <= 59) );
-	XMP_Assert ( (-1 <= xmpTime->tzSign) && (xmpTime->tzSign <= +1) );
-	XMP_Assert ( (xmpTime->tzSign == 0) ? ((xmpTime->tzHour == 0) && (xmpTime->tzMinute == 0)) :
-                                                                                  (xmpTime->tzSign != 0) );
+	XMP_Assert ( (xmpTime->tzSign == -1) || (xmpTime->tzSign == +1) );
+	XMP_Assert ( (diffSecs != 0) || ((xmpTime->tzHour == 0) && (xmpTime->tzMinute == 0)) );
 
 }	// SetTimeZone
 
@@ -2017,8 +2015,7 @@ XMPUtils::ConvertToUTCTime ( XMP_DateTime * time )
 	XMP_Assert ( (0 <= time->tzHour) && (time->tzHour <= 23) );
 	XMP_Assert ( (0 <= time->tzMinute) && (time->tzMinute <= 59) );
 	XMP_Assert ( (-1 <= time->tzSign) && (time->tzSign <= +1) );
-	XMP_Assert ( (time->tzSign == 0) ? ((time->tzHour == 0) && (time->tzMinute == 0)) :
-                                                                           (time->tzSign != 0) );
+	XMP_Assert ( (time->tzSign != 0) || ((time->tzHour == 0) && (time->tzMinute == 0)) );
 
 	if ( time->tzSign == kXMP_TimeEastOfUTC ) {
 		// We are before (east of) GMT, subtract the offset from the time.
@@ -2031,8 +2028,8 @@ XMPUtils::ConvertToUTCTime ( XMP_DateTime * time )
 	}
 	
 	AdjustTimeOverflow ( time );
-        time->tzSign = kXMP_TimeWestOfUTC;
-        time->tzHour = time->tzMinute = 0;
+	time->tzSign = kXMP_TimeWestOfUTC;
+	time->tzHour = time->tzMinute = 0;
 
 }	// ConvertToUTCTime
 
@@ -2049,8 +2046,7 @@ XMPUtils::ConvertToLocalTime ( XMP_DateTime * time )
 	XMP_Assert ( (0 <= time->tzHour) && (time->tzHour <= 23) );
 	XMP_Assert ( (0 <= time->tzMinute) && (time->tzMinute <= 59) );
 	XMP_Assert ( (-1 <= time->tzSign) && (time->tzSign <= +1) );
-	XMP_Assert ( (time->tzSign == 0) ? ((time->tzHour == 0) && (time->tzMinute == 0)) :
-                                                                           (time->tzSign != 0) );
+	XMP_Assert ( (time->tzSign != 0) || ((time->tzHour == 0) && (time->tzMinute == 0)) );
 
 	ConvertToUTCTime ( time );	// The existing time zone might not be the local one.
 	SetTimeZone ( time );		// Fill in the local timezone offset, then adjust the time.

@@ -114,7 +114,7 @@ int test_main(int argc, char *argv[])
 	the_dt.hour = 12;
 	the_dt.minute = 42;
 	the_dt.second = 42;
-        the_dt.tzSign = XMP_TZ_WEST;
+	the_dt.tzSign = XMP_TZ_WEST;
 	the_dt.tzHour = 0;
 	the_dt.tzMinute = 0;
 	the_dt.nanoSecond = 0;
@@ -135,7 +135,7 @@ int test_main(int argc, char *argv[])
 
 	BOOST_CHECK(the_dt2.year == 2005);
 	BOOST_CHECK(the_dt2.minute == 42);
-        BOOST_CHECK(the_dt2.tzSign == XMP_TZ_WEST);
+	BOOST_CHECK(the_dt2.tzSign == XMP_TZ_WEST);
 
 
 	xmp_string_free(the_prop);

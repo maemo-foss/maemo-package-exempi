@@ -1299,7 +1299,7 @@ ImportTIFF_Date ( const TIFF_Manager & tiff, const TIFF_Manager::TagInfo & dateI
 		binValue.minute = GatherInt ( &dateStr[14], 2 );
 		binValue.second = GatherInt ( &dateStr[17], 2 );
 		binValue.nanoSecond = 0;	// Get the fractional seconds later.
-                binValue.tzSign = binValue.tzHour = binValue.tzMinute = 0; // Assume NO TIME ZONE!
+		binValue.tzSign = binValue.tzHour = binValue.tzMinute = 0; // Assume NO TIME ZONE!
 
 		TIFF_Manager::TagInfo secInfo;
 		bool found = tiff.GetTag ( kTIFF_ExifIFD, secID, &secInfo );
@@ -1811,7 +1811,7 @@ ImportTIFF_GPSTimeStamp ( const TIFF_Manager & tiff, const TIFF_Manager::TagInfo
 		fSec  =  temp;
 		
 		XMP_DateTime binStamp;
-                binStamp.tzSign = kXMP_TimeNOZONE;
+		binStamp.tzSign = kXMP_TimeNOZONE;
 		binStamp.tzHour = binStamp.tzMinute = 0;
 		binStamp.year   = GatherInt ( dateStr, 4 );
 		binStamp.month  = GatherInt ( dateStr+5, 2 );
