@@ -1111,8 +1111,8 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 
                 if ((tempDate.tzSign == 0) && (tempDate.tzHour == 0) && (tempDate.tzMinute == 0)) {
 			*sConvertedValue += 'Z';
-                } else if ((tempDate.tzSign == 0) && (tempDate.tzHour != 0) && (tempDate.tzMinute != 0)) {
-                        ; // Keep with zoneless time
+		} else if ((tempDate.tzSign == 0) && (tempDate.tzHour != 0) && (tempDate.tzMinute != 0)) {
+			; // Keep with zoneless time
 		} else {
 			snprintf ( buffer, sizeof(buffer), "+%02d:%02d", tempDate.tzHour, tempDate.tzMinute );	// AUDIT: Using sizeof for snprintf length is safe.
 			if ( tempDate.tzSign < 0 ) buffer[0] = '-';
@@ -1985,7 +1985,7 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 	if ( diffSecs > 0.0 ) {
 		xmpTime->tzSign = kXMP_TimeEastOfUTC;
 	} else if ( diffSecs == 0.0 ) {
-                xmpTime->tzSign = kXMP_TimeIsUTC;
+		xmpTime->tzSign = kXMP_TimeIsUTC;
 	} else {
 		xmpTime->tzSign = kXMP_TimeWestOfUTC;
 		diffSecs = -diffSecs;
@@ -1997,7 +1997,7 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 	
 	XMP_Assert ( (0 <= xmpTime->tzHour) && (xmpTime->tzHour <= 23) );
 	XMP_Assert ( (0 <= xmpTime->tzMinute) && (xmpTime->tzMinute <= 59) );
-        XMP_Assert ( (-1 <= xmpTime->tzSign) || (xmpTime->tzSign <= +1) );
+	XMP_Assert ( (-1 <= xmpTime->tzSign) || (xmpTime->tzSign <= +1) );
         XMP_Assert ( (time->tzSign != 0) ? ((time->tzHour != 0) && (time->tzMinute != 0)) :
                      (((time->tzHour == 0) && (time->tzMinute == 0)) || ((time->tzHour == 1) && (time->tzMinute == 1))) );
 
