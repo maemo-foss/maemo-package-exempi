@@ -176,7 +176,7 @@ struct XMP_DateTime {
 	/// The second in the range 0..59.
     XMP_Int32 second;
 
-        /// The "sign" of the time zone, \c #kXMP_TimeNOZONE (0) means No time zone, \c #kXMP_TimeWestOfUTC (-1)
+        /// The "sign" of the time zone, \c #kXMP_TimeIsUTC (0) means No time zone, \c #kXMP_TimeWestOfUTC (-1)
 	/// is west, \c #kXMP_TimeEastOfUTC (+1) is east.
     XMP_Int32 tzSign;
 
@@ -196,7 +196,7 @@ enum {
 	/// Time zone is west of UTC.
     kXMP_TimeWestOfUTC = -1,
 	/// UTC time.
-    kXMP_TimeNOZONE     =  0,
+    kXMP_TimeIsUTC     =  0,
 	/// Time zone is east of UTC.
     kXMP_TimeEastOfUTC = +1
 };

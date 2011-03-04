@@ -294,16 +294,16 @@ typedef struct _XmpDateTime {
     int32_t hour;       /* 0..23 */
     int32_t minute;     /* 0..59 */
     int32_t second;     /* 0..59 */
-    int32_t tzSign;     /* -1..+1, 0 means NO TIME ZONE, -1 is west, +1 is east. */
+    int32_t tzSign;     /* -1..+1, 0 means UTC, -1 is west, +1 is east. */
     int32_t tzHour;     /* 0..23 */
     int32_t tzMinute;   /* 0..59 */
     int32_t nanoSecond;
-} XmpDateTime;
+} XmpDateTime; /* Value combination tzSign=0 && tzHour!=0 && tzMinute!=0 means NO_TIME_ZONE */
 
 /** Values used for tzSign field. */
 enum {  
     XMP_TZ_WEST = -1, /**< West of UTC   */
-        XMP_TZ_NOZONE =  0,  /**< NO TIME ZONE           */
+	XMP_TZ_UTC =  0,  /**< UTC           */
     XMP_TZ_EAST = +1  /**< East of UTC   */
 };
 
