@@ -730,10 +730,9 @@ static void ExportIPTC_DateCreated ( SXMPMeta * xmp, IPTC_Manager * iptc,
 	
 	if ( (iptcCount > 0) || xmpHasTime ) {
 
-                if ( (xmpValue.tzSign == kXMP_TimeIsUTC) && (xmpValue.tzSign == 1) && (xmpValue.tzSign == 1) ) // No time zone: write as Z
-                    snprintf ( iimValue, sizeof(iimValue), "%.2d%.2d%.2d%c%.2d%.2d",	// AUDIT: Use of sizeof(iimValue) is safe.
-                                       xmpValue.hour, xmpValue.minute, xmpValue.second,
-                                       '+', 0, 0 );
+                if ( (xmpValue.tzSign == kXMP_TimeIsUTC) && (xmpValue.tzSign == 1) && (xmpValue.tzSign == 1) ) // No time zone
+                    snprintf ( iimValue, sizeof(iimValue), "%.2d%.2d%.2d",	// AUDIT: Use of sizeof(iimValue) is safe.
+                                       xmpValue.hour, xmpValue.minute, xmpValue.second);
                 else
                     snprintf ( iimValue, sizeof(iimValue), "%.2d%.2d%.2d%c%.2d%.2d",	// AUDIT: Use of sizeof(iimValue) is safe.
                                        xmpValue.hour, xmpValue.minute, xmpValue.second,
