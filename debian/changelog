@@ -1,3 +1,9 @@
+exempi (2.1.1-1+maemo16) unstable; urgency=low
+
+  * Support for zoneless timestamps
+
+ -- Jussi Rautio <ext-jussi.2.rautio@nokia.com>  Mon, 07 Mar 2010 14:05:03 +0200
+
 exempi (2.1.1-1+maemo15) unstable; urgency=low
 
   * Fixes: NB#194824 crash in readIFD
