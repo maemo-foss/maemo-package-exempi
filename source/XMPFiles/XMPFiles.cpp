@@ -1224,7 +1224,6 @@ XMPFiles::CloseFile ( XMP_OptionBits closeFlags /* = 0 */ )
 				copyFileRef = 0;
 
 				CreateTempFile ( origFilePath, &tempFilePath );
-				LFA_Delete ( tempFilePath.c_str() );	// ! Slight risk of name being grabbed before rename.
 				LFA_Rename ( origFilePath.c_str(), tempFilePath.c_str() );
 
 				XMP_Assert ( tempFileRef == 0 );
@@ -1256,7 +1255,6 @@ XMPFiles::CloseFile ( XMP_OptionBits closeFlags /* = 0 */ )
 			origFileRef = 0;
 			tempFileRef = 0;
 			
-			LFA_Delete ( origFilePath.c_str() );
 			LFA_Rename ( tempFilePath.c_str(), origFilePath.c_str() );
 
 		}

@@ -347,7 +347,6 @@ bool ASF_MetaHandler::SafeWriteFile ()
 	}
 
 	LFA_Close ( origRef );
-	LFA_Delete ( origPath.c_str() );
 
 	LFA_Close ( updateRef );
 	LFA_Rename ( updatePath.c_str(), origPath.c_str() );

@@ -204,7 +204,6 @@ void MPEG2_MetaHandler::UpdateFile ( bool doSafeUpdate )
 			LFA_Close ( tempFileRef );
 			tempFileRef = 0;
 			
-			LFA_Delete ( this->sidecarPath.c_str() );
 			LFA_Rename ( tempFilePath.c_str(), this->sidecarPath.c_str() );
 
 		} catch ( ... ) {

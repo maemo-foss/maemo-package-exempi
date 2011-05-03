@@ -626,7 +626,6 @@ void AVCHD_MetaHandler::UpdateFile ( bool doSafeUpdate )
 		LFA_Close ( tempFile );
 		
 		LFA_Close ( oldFile );
-		LFA_Delete ( xmpPath.c_str() );
 		LFA_Rename ( tempPath.c_str(), xmpPath.c_str() );
 
 	}
