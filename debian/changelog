@@ -1,3 +1,10 @@
+exempi (2.1.1-1+maemo17) unstable; urgency=low
+
+  * No deletion of original before renaming, required by tracker
+  * Fixes: NB#248533 Tracker problems
+
+ -- Jussi Rautio <ext-jussi.2.rautio@nokia.com>  Wed, 04 May 2010 10:37:04 +0200
+
 exempi (2.1.1-1+maemo16) unstable; urgency=low
 
   * Support for zoneless timestamps
